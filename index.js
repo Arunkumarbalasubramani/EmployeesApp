@@ -14,9 +14,3 @@ app.use(employeeRoutes);
 app.listen(PORT, () => {
   console.log(`App Started on PORT ${PORT} `);
 });
-
-// get-/employees
-// get single emp -/employees/:empId
-//post -/employees
-//put -/employees/:empId
-//delete -/employees/:empId
