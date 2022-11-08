@@ -6,12 +6,22 @@ const router = express.Router();
 //To Get All Employees
 router.get("/employees", (req, res) => {
   try {
-    Employees.find((err, data) => {
-      if (err) {
-        return res.status(400).send(`Error While reteriving data - ${err}`);
-      }
-      return res.status(200).send(data);
-    });
+    const { email } = req.query;
+    if (email) {
+      Employees.find({ email }, (err, data) => {
+        if (err) {
+          return res.status(400).send(`Error While reteriving data - ${err}`);
+        }
+        return res.status(200).send(data);
+      });
+    } else {
+      Employees.find((err, data) => {
+        if (err) {
+          return res.status(400).send(`Error While reteriving data - ${err}`);
+        }
+        return res.status(200).send(data);
+      });
+    }
   } catch (error) {
     res.status(500).send({ msg: "Internal server error" });
   }
@@ -80,7 +90,7 @@ router.put("/employees/:empID", (req, res) => {
 router.delete("/employees/:empID", (req, res) => {
   try {
     const employeeID = req.params.empID;
-    const result = Employees.deleteOne(
+    Employees.deleteOne(
       {
         _id: employeeID,
       },
